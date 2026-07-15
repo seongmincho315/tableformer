@@ -1,0 +1,25 @@
+[project]
+name = "tableformer-structure-server"
+version = "0.0.1"
+description = "docling의 TableFormer 표 구조 인식 모델(docling-ibm-models)을 FastAPI로 감싼 서빙 앱"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    # 레거시 doc_parser에서 검증된 버전으로 고정 (tm_config.json/safetensors가 특정
+    # 모델 코드 버전에 묶여 있어 detr처럼 floating(>=3.0)으로 두면 깨질 위험이 있음)
+    "docling-ibm-models[opencv-python-headless]==3.10.3",
+    "huggingface-hub>=0.24",
+    "pillow>=10.0",
+    "torch==2.5.1",
+]
+
+# 노드 GPU(GTX 1060, 드라이버 535 → CUDA 12.2까지만 지원) 호환을 위해
+# torch를 cu121 빌드로 고정 (기본 PyPI 휠은 최신 CUDA라 드라이버와 안 맞음) — detr과 동일 사유
+[tool.uv.sources]
+torch = { index = "pytorch-cu121" }
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
