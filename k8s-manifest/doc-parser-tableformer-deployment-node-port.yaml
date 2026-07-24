@@ -42,6 +42,7 @@ spec:
               port: 8080
             initialDelaySeconds: 20
             periodSeconds: 15
+            timeoutSeconds: 30 # CPU 추론(/structure)이 이벤트루프를 오래 막을 수 있어 detr(5s)보다 넉넉하게
       volumes:
         - name: nfs-root
           persistentVolumeClaim:
